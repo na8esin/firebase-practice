@@ -126,6 +126,7 @@
 
       try {
         let app = firebase.app();
+        const db = firebase.firestore();
         let features = [
           'auth',
           'database',
@@ -137,17 +138,15 @@
         ].filter(feature => typeof app[feature] === 'function');
         loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
 
-        let user = firebase.auth().currentUser;
-        if (user != null) {
-          name = user.displayName;
-          email = user.email;
-          photoUrl = user.photoURL;
-          emailVerified = user.emailVerified;
-          uid = user.uid;
-          console.log(uid);
-        }
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+            console.log(user.uid);
+            getMessageByUID(user.uid);
+          } else {
+            console.log('No user is signed in.');
+          }
+        });
 
-        let db = firebase.firestore();
         let messageRef = db.collection('rooms')
           .doc('roomA')
           .collection('messages')
@@ -167,6 +166,26 @@
         loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
       }
     });
+
+    function getMessageByUID(uid) {
+      const db = firebase.firestore();
+      let messageRef = db.collection('rooms')
+        .doc('roomA')
+        .collection('messages')
+        .where("from", "==", uid)
+        ;
+      messageRef
+        .get()
+        .then(function (querySnapshot) {
+          querySnapshot.forEach(function (doc) {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+          });
+        })
+        .catch(function (error) {
+          console.log("Error getting documents: ", error);
+        });
+    }
   </script>
 </body>
 

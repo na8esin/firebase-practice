@@ -3,7 +3,7 @@ var uiConfig = {
     // Url to redirect to after a successful sign-in.
     'signInSuccessUrl': '/',
     'callbacks': {
-        'signInSuccess': function (user, credential, redirectUrl) {
+        signInSuccessWithAuthResult: function (authResult, redirectUrl) {
             if (window.opener) {
                 // The widget has been opened in a popup, so close the window
                 // and return false to not redirect the opener.
@@ -48,7 +48,8 @@ var uiConfig = {
     'tosUrl': 'https://www.google.com',
     'credentialHelper': CLIENT_ID && CLIENT_ID != 'YOUR_OAUTH_CLIENT_ID' ?
         firebaseui.auth.CredentialHelper.GOOGLE_YOLO :
-        firebaseui.auth.CredentialHelper.NONE
+        firebaseui.auth.CredentialHelper.NONE,
+    privacyPolicyUrl: 'https://github.com/na8esin'
 };
 
 // Initialize the FirebaseUI Widget using Firebase.
