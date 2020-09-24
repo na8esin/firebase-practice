@@ -141,23 +141,10 @@
         firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
             console.log(user.uid);
+            //getUserByUID(user.uid);
             getMessageByUID(user.uid);
           } else {
             console.log('No user is signed in.');
-          }
-        });
-
-        let messageRef = db.collection('rooms')
-          .doc('roomA')
-          .collection('messages')
-          .doc('message1')
-          ;
-        messageRef.get().then(function (doc) {
-          if (doc.exists) {
-            console.log("Document data:", doc.data());
-          } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
           }
         });
 
@@ -167,11 +154,30 @@
       }
     });
 
+    function getUserByUID(uid) {
+      const db = firebase.firestore();
+      db.collection('users')
+        // nameの検索を一般ユーザができる時点でおかしいから常に拒否でいい
+        //.where("name", "==", "Saint-Germain")
+
+        // 自分のuserドキュメントを検索
+        .doc(uid)
+        .get()
+        .then(function (doc) {
+          // Document was found in the cache. If no cached document exists,
+          // an error will be returned to the 'catch' block below.
+          console.log("Cached document data:", doc.data());
+        }).catch(function (error) {
+          console.log("Error getting cached document:", error);
+        });
+    }
+
     function getMessageByUID(uid) {
       const db = firebase.firestore();
       let messageRef = db.collection('rooms')
         .doc('roomA')
         .collection('messages')
+        //        .where("from", "==", "k1K3IRRneSeJPY5O1O66MtT3eCs1")
         .where("from", "==", uid)
         ;
       messageRef
@@ -184,6 +190,8 @@
         })
         .catch(function (error) {
           console.log("Error getting documents: ", error);
+
+          // TODO insufficient permissions
         });
     }
   </script>
