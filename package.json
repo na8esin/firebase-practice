@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "test": "mocha --exit"
+  },
   "dependencies": {
     "firebase-tools": "^8.11.0"
   },
