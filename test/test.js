@@ -38,4 +38,10 @@ describe("Our social app", () => {
     const testDoc = db.collection("users").doc(theirId);
     await firebase.assertFails(testDoc.set({ foo: "bar" }));
   });
+
+  it("Can read posts marked public", async () => {
+    const db = getFirestore(null);
+    const testQuery = db.collection("posts").where("visibility", "==", "public");
+    await firebase.assertSucceeds(testQuery.get());
+  });
 });
