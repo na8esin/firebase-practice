@@ -21,6 +21,10 @@ service cloud.firestore {
       match /messages/{document=**} {
         allow read, write: if resource.data.from == request.auth.uid;
       }
- }
+    }
+
+    match /examanations/{Id} {
+      allow read: if true;
+    }
   }
 }
