@@ -2,6 +2,13 @@ const assert = require('assert');
 const firebase = require('@firebase/rules-unit-testing');
 
 const MY_PROJECT_ID = 'practice-da34f';
+const myId = "user_abc";
+const theirId = "user_xyz";
+const myAuth = { uid: myId, email: "abc@gmail.com" };
+
+function getFirestore(auth) {
+  return firebase.initializeTestApp({ projectId: MY_PROJECT_ID, auth: myAuth }).firestore();
+}
 
 describe("Our social app", () => {
   it("Understands basic addition", () => {
@@ -9,28 +16,26 @@ describe("Our social app", () => {
   });
 
   it("Can read items in the read-only collection", async () => {
-    const db = firebase.initializeTestApp({ projectId: MY_PROJECT_ID }).firestore();
+    const db = getFirestore(null);
     const testDoc = db.collection("examanations").doc('docA');
     await firebase.assertSucceeds(testDoc.get());
   });
 
   it("Can't write items in the read-only collection", async () => {
-    const db = firebase.initializeTestApp({ projectId: MY_PROJECT_ID }).firestore();
+    const db = getFirestore(null);
     const testDoc = db.collection("examanations").doc('docB');
     await firebase.assertFails(testDoc.set({ foo: "bar" }));
   });
 
   it("Can write to a user document with the same ID as our user", async () => {
-    const myAuth = { uid: "user_abc", email: "abc@gmail.com" };
-    const db = firebase.initializeTestApp({ projectId: MY_PROJECT_ID, auth: myAuth }).firestore();
-    const testDoc = db.collection("users").doc('user_abc');
+    const db = getFirestore(myAuth);
+    const testDoc = db.collection("users").doc(myId);
     await firebase.assertSucceeds(testDoc.set({ foo: "bar" }));
   });
 
   it("Can't write to a user document with a differnt ID as our user", async () => {
-    const myAuth = { uid: "user_abc", email: "abc@gmail.com" };
-    const db = firebase.initializeTestApp({ projectId: MY_PROJECT_ID, auth: myAuth }).firestore();
-    const testDoc = db.collection("users").doc('user_xyz');
+    const db = getFirestore(myAuth);
+    const testDoc = db.collection("users").doc(theirId);
     await firebase.assertFails(testDoc.set({ foo: "bar" }));
   });
 });
