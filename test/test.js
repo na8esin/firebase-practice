@@ -44,4 +44,10 @@ describe("Our social app", () => {
     const testQuery = db.collection("posts").where("visibility", "==", "public");
     await firebase.assertSucceeds(testQuery.get());
   });
+
+  it("Can't query all posts", async () => {
+    const db = getFirestore(myAuth);
+    const testQuery = db.collection("posts");
+    await firebase.assertFails(testQuery.get());
+  })
 });
