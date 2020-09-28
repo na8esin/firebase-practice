@@ -6,9 +6,8 @@ service cloud.firestore {
     }
 
     // The name of userId can be anything
-    match /users/{userId}/{documents=**} {
-      allow read, write: if isSignedIn()
-        && request.auth.uid == userId
+    match /users/{userId} {
+      allow read, write: if request.auth.uid == userId;
     }
     
     match /rooms/{room} { 
@@ -23,7 +22,7 @@ service cloud.firestore {
       }
     }
 
-    match /examanations/{Id} {
+    match /examanations/{docId} {
       allow read: if true;
     }
   }
