@@ -7,7 +7,7 @@ const theirId = "user_xyz";
 const myAuth = { uid: myId, email: "abc@gmail.com" };
 
 function getFirestore(auth) {
-  return firebase.initializeTestApp({ projectId: MY_PROJECT_ID, auth: myAuth }).firestore();
+  return firebase.initializeTestApp({ projectId: MY_PROJECT_ID, auth }).firestore();
 }
 
 describe("Our social app", () => {
