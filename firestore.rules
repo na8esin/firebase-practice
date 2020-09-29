@@ -5,6 +5,10 @@ service cloud.firestore {
       return request.auth != null
     }
 
+    function userIsModerator() {
+      return request.auth.token.isModerator == true;
+    }
+
     // The name of userId can be anything
     match /users/{userId} {
       allow read, write: if request.auth.uid == userId;
@@ -12,7 +16,8 @@ service cloud.firestore {
     match /posts/{postId} {
       allow read: if (resource.data.visibility == "public") ||
         (resource.data.authorId == request.auth.uid);
-      allow update: if (resource.data.authorId== request.auth.uid);
+      allow update: if (resource.data.authorId== request.auth.uid) ||
+         userIsModerator();
     }
     
     match /rooms/{room} { 

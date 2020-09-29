@@ -1,11 +1,12 @@
 const assert = require('assert');
 const firebase = require('@firebase/rules-unit-testing');
-const { time } = require('console');
 
 const MY_PROJECT_ID = 'practice-da34f';
 const myId = "user_abc";
 const theirId = "user_xyz";
+const modId = "user_mod";
 const myAuth = { uid: myId, email: "abc@gmail.com" };
+const modAuth = { uid: modId, email: "mod@gmail.com", isModerator: true };
 
 function getFirestore(auth) {
   return firebase.initializeTestApp({ projectId: MY_PROJECT_ID, auth }).firestore();
@@ -117,6 +118,16 @@ describe("Our social app", () => {
     const db = getFirestore(myAuth);
     const testDoc = db.collection("posts").doc(postId);
     await firebase.assertFails(testDoc.update({ content: "after" }));
+  });
+
+  it("Allows a moderator to edit somebody else's post", async () => {
+    const postId = "post_123";
+    const admin = getAdminFirestore();
+    await admin.collection("posts").doc(postId).set({ content: "before", authorId: theirId });
+
+    const db = getFirestore(modAuth);
+    const testDoc = db.collection("posts").doc(postId);
+    await firebase.assertSucceeds(testDoc.update({ content: "after" }));
   });
 });
 
