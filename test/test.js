@@ -129,6 +129,38 @@ describe("Our social app", () => {
     const testDoc = db.collection("posts").doc(postId);
     await firebase.assertSucceeds(testDoc.update({ content: "after" }));
   });
+
+  it("Allows a user to edit their own room post", async () => {
+    const postPath = "/rooms/room_abc/posts/post_123";
+    const admin = getAdminFirestore();
+    await admin.doc(postPath).set({ content: "before", authorId: myId });
+
+    const db = getFirestore(myAuth);
+    const testDoc = db.doc(postPath);
+    await firebase.assertSucceeds(testDoc.update({ content: "after" }));
+  });
+
+  it("Won't a user to edit somebody else's room post", async () => {
+    const postPath = "/rooms/room_abc/posts/post_123";
+    const admin = getAdminFirestore();
+    await admin.doc(postPath).set({ content: "before", authorId: theirId });
+
+    const db = getFirestore(myAuth);
+    const testDoc = db.doc(postPath);
+    await firebase.assertFails(testDoc.update({ content: "after" }));
+  });
+
+  it("Allows a room mod to edit another person's room post", async () => {
+    const roomPath = "rooms/room_abc";
+    const postPath = `${roomPath}/posts/post_123`;
+    const admin = getAdminFirestore();
+    await admin.doc(roomPath).set({ topic: "Unit testers", roomMod: myId });
+    await admin.doc(postPath).set({ content: "before", authorId: theirId });
+
+    const db = getFirestore(myAuth);
+    const testDoc = db.doc(postPath);
+    await firebase.assertSucceeds(testDoc.update({ content: "after" }));
+  });
 });
 
 after(async () => {
