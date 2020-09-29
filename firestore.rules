@@ -12,6 +12,7 @@ service cloud.firestore {
     match /posts/{postId} {
       allow read: if (resource.data.visibility == "public") ||
         (resource.data.authorId == request.auth.uid);
+      allow update: if (resource.data.authorId== request.auth.uid);
     }
     
     match /rooms/{room} { 

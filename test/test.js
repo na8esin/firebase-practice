@@ -97,5 +97,29 @@ describe("Our social app", () => {
     const db = getFirestore(myAuth);
     const testRead = db.collection("posts").doc(postId);
     await firebase.assertFails(testRead.get());
-  })
+  });
+
+  it("Allows a user to edit their own post", async () => {
+    const postId = "post_123";
+    const admin = getAdminFirestore();
+    await admin.collection("posts").doc(postId).set({ content: "before", authorId: myId });
+
+    const db = getFirestore(myAuth);
+    const testDoc = db.collection("posts").doc(postId);
+    await firebase.assertSucceeds(testDoc.update({ content: "after" }));
+  });
+
+  it("Doesn't allow a user to edit somebody else's post", async () => {
+    const postId = "post_123";
+    const admin = getAdminFirestore();
+    await admin.collection("posts").doc(postId).set({ content: "before", authorId: theirId });
+
+    const db = getFirestore(myAuth);
+    const testDoc = db.collection("posts").doc(postId);
+    await firebase.assertFails(testDoc.update({ content: "after" }));
+  });
 });
+
+after(async () => {
+  await firebase.clearFirestoreData({ projectId: MY_PROJECT_ID });
+})
