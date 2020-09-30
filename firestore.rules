@@ -15,6 +15,7 @@ service cloud.firestore {
         (resource.data.authorId == request.auth.uid);
       allow update: if (resource.data.authorId== request.auth.uid) ||
          userIsModerator();
+      allow create: if(request.resource.data.authorId == request.auth.uid);
     }
     match /rooms/{roomId} { 
       function userIsRoomMod() {

@@ -161,6 +161,20 @@ describe("Our social app", () => {
     const testDoc = db.doc(postPath);
     await firebase.assertSucceeds(testDoc.update({ content: "after" }));
   });
+
+  it("Allows a user to create a post when they list themselves as the author", async () => {
+    const postPath = "/posts/post_123";
+    const db = getFirestore(myAuth);
+    const testDoc = db.doc(postPath);
+    await firebase.assertSucceeds(testDoc.set({ authorId: myId, content: "lorem ipsum" }));
+  });
+
+  it("Doesn't let a user create a post when they list somebody else as the author", async () => {
+    const postPath = "/posts/post_123";
+    const db = getFirestore(myAuth);
+    const testDoc = db.doc(postPath);
+    await firebase.assertFails(testDoc.set({ authorId: theirId, content: "lorem ipsum" }));
+  });
 });
 
 after(async () => {
