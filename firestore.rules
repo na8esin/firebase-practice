@@ -20,7 +20,7 @@ service cloud.firestore {
       // Security rules for rooms should go here.
       match /posts/{postId} {
         allow update: if (resource.data.authorId == request.auth.uid) ||
-          get(/databases/$(database)/documents/rooms/$(roomId)).data.roomMod == request.auth.uid;
+          (request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.roomMods);
       }
     }
 

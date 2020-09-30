@@ -154,7 +154,7 @@ describe("Our social app", () => {
     const roomPath = "rooms/room_abc";
     const postPath = `${roomPath}/posts/post_123`;
     const admin = getAdminFirestore();
-    await admin.doc(roomPath).set({ topic: "Unit testers", roomMod: myId });
+    await admin.doc(roomPath).set({ topic: "Unit testers", roomMods: [myId, "dummyUser"] });
     await admin.doc(postPath).set({ content: "before", authorId: theirId });
 
     const db = getFirestore(myAuth);
