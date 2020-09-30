@@ -17,10 +17,14 @@ service cloud.firestore {
          userIsModerator();
     }
     match /rooms/{roomId} { 
+      function userIsRoomMod() {
+        return (request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.roomMods);
+      }
+
       // Security rules for rooms should go here.
       match /posts/{postId} {
         allow update: if (resource.data.authorId == request.auth.uid) ||
-          (request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.roomMods);
+          userIsRoomMod();
       }
     }
 
