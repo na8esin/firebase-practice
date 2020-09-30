@@ -13,8 +13,8 @@ service cloud.firestore {
     match /posts/{postId} {
       function postHasAllRequiredFields() {
         // バリデーションっぽくね？
-        return request.resource.data.keys().
-          hasAll(["authorId", "visibility", "content","headline"]);
+        let requiredFields = ["authorId", "visibility", "content","headline"];
+        return request.resource.data.keys().hasAll(requiredFields);
       }
 
       allow read: if (resource.data.visibility == "public") ||
