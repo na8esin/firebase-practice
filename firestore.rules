@@ -11,11 +11,18 @@ service cloud.firestore {
       allow read, write: if request.auth.uid == userId;
     }
     match /posts/{postId} {
+      function postHasAllRequiredFields() {
+        // バリデーションっぽくね？
+        return request.resource.data.keys().
+          hasAll(["authorId", "visibility", "content","headline"]);
+      }
+
       allow read: if (resource.data.visibility == "public") ||
         (resource.data.authorId == request.auth.uid);
       allow update: if (resource.data.authorId== request.auth.uid) ||
          userIsModerator();
-      allow create: if(request.resource.data.authorId == request.auth.uid);
+      allow create: if(request.resource.data.authorId == request.auth.uid) &&
+        postHasAllRequiredFields();
     }
     match /rooms/{roomId} { 
       function userIsRoomMod() {

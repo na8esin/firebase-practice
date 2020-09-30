@@ -166,7 +166,10 @@ describe("Our social app", () => {
     const postPath = "/posts/post_123";
     const db = getFirestore(myAuth);
     const testDoc = db.doc(postPath);
-    await firebase.assertSucceeds(testDoc.set({ authorId: myId, content: "lorem ipsum" }));
+    await firebase.assertSucceeds(testDoc.set({
+      authorId: myId, content: "lorem ipsum",
+      visibility: "public", headline: "headline"
+    }));
   });
 
   it("Doesn't let a user create a post when they list somebody else as the author", async () => {
@@ -174,6 +177,23 @@ describe("Our social app", () => {
     const db = getFirestore(myAuth);
     const testDoc = db.doc(postPath);
     await firebase.assertFails(testDoc.set({ authorId: theirId, content: "lorem ipsum" }));
+  });
+
+  it("Can create a post with all required field", async () => {
+    const postPath = "/posts/post_123";
+    const db = getFirestore(myAuth);
+    const testDoc = db.doc(postPath);
+    await firebase.assertSucceeds(testDoc.set({
+      authorId: myId, content: "lorem ipsum",
+      visibility: "public", headline: "headline"
+    }));
+  });
+
+  it("Can't create a post missing some required fields", async () => {
+    const postPath = "/posts/post_123";
+    const db = getFirestore(myAuth);
+    const testDoc = db.doc(postPath);
+    await firebase.assertFails(testDoc.set({ authorId: myId, headline: "headline" }));
   });
 });
 
