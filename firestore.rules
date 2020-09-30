@@ -6,23 +6,24 @@ service cloud.firestore {
       return request.auth.token.isModerator == true;
     }
 
+    function documentFieldsCheckOut(requiredFields, optionalFields) {
+      let allFields = requiredFields.concat(optionalFields);
+      return request.resource.data.keys().hasAll(requiredFields) &&
+        request.resource.data.keys().hasOnly(allFields);
+    }
+
     // The name of userId can be anything
     match /users/{userId} {
       allow read, write: if request.auth.uid == userId;
     }
     match /posts/{postId} {
-      function postHasAllRequiredFields() {
-        // バリデーションっぽくね？
-        let requiredFields = ["authorId", "visibility", "content","headline"];
-        return request.resource.data.keys().hasAll(requiredFields);
-      }
-
       allow read: if (resource.data.visibility == "public") ||
         (resource.data.authorId == request.auth.uid);
       allow update: if (resource.data.authorId== request.auth.uid) ||
          userIsModerator();
-      allow create: if(request.resource.data.authorId == request.auth.uid) &&
-        postHasAllRequiredFields();
+      allow create: if (request.resource.data.authorId == request.auth.uid) &&
+        documentFieldsCheckOut(["authorId", "visibility", "content","headline"], 
+        ["photo", "tags", "location"]);
     }
     match /rooms/{roomId} { 
       function userIsRoomMod() {

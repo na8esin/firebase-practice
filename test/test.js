@@ -195,6 +195,29 @@ describe("Our social app", () => {
     const testDoc = db.doc(postPath);
     await firebase.assertFails(testDoc.set({ authorId: myId, headline: "headline" }));
   });
+
+  it("Can create a post with all required and optional fields", async () => {
+    const postPath = "/posts/post_123";
+    const db = getFirestore(myAuth);
+    const testDoc = db.doc(postPath);
+    await firebase.assertSucceeds(testDoc.set({
+      authorId: myId, content: "lorem ipsum",
+      visibility: "public", headline: "headline", location: "San Francisco",
+      tags: ["screencast", "firebase"], photo: "url_goes_here"
+    }));
+  });
+
+  it("Can't create a post with an unapproved fields", async () => {
+    const postPath = "/posts/post_123";
+    const db = getFirestore(myAuth);
+    const testDoc = db.doc(postPath);
+    await firebase.assertFails(testDoc.set({
+      authorId: myId, content: "lorem ipsum",
+      visibility: "public", headline: "headline", location: "San Francisco",
+      // 存在というか定義されてないフィールドはだめ
+      not_allowed: true
+    }))
+  })
 });
 
 after(async () => {
