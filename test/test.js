@@ -230,7 +230,23 @@ describe("Our social app", () => {
     const db = getFirestore(myAuth);
     const testDoc = db.doc(postPath);
     await firebase.assertSucceeds(testDoc.update({ content: "after_content" }));
-  })
+  });
+
+  it("Can't edit a post's forbidden fields", async () => {
+    const postPath = "/posts/post_123";
+    const admin = getAdminFirestore();
+    await admin.doc(postPath).set({
+      content: "before_content", authorId: myId,
+      headline: "before_headline", visibility: "public"
+    });
+
+    const db = getFirestore(myAuth);
+    const testDoc = db.doc(postPath);
+    await firebase.assertFails(testDoc.update({
+      content: "after_content",
+      headline: "after_headline"
+    }));
+  });
 });
 
 after(async () => {
