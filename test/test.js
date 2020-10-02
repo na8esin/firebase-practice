@@ -217,6 +217,19 @@ describe("Our social app", () => {
       // 存在というか定義されてないフィールドはだめ
       not_allowed: true
     }))
+  });
+
+  it("Can edit a post with allowed fields", async () => {
+    const postPath = "/posts/post_123";
+    const admin = getAdminFirestore();
+    await admin.doc(postPath).set({
+      content: "before_content", authorId: myId,
+      headline: "before_headline", visibility: "public"
+    });
+
+    const db = getFirestore(myAuth);
+    const testDoc = db.doc(postPath);
+    await firebase.assertSucceeds(testDoc.update({ content: "after_content" }));
   })
 });
 

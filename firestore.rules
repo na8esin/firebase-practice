@@ -12,6 +12,10 @@ service cloud.firestore {
         request.resource.data.keys().hasOnly(allFields);
     }
 
+    function editOnlyChangesFields(allowedFields) {
+      return debug(request.resource.data.keys()).hasOnly(allowedFields);
+    }
+
     // The name of userId can be anything
     match /users/{userId} {
       allow read, write: if request.auth.uid == userId;
@@ -19,8 +23,8 @@ service cloud.firestore {
     match /posts/{postId} {
       allow read: if (resource.data.visibility == "public") ||
         (resource.data.authorId == request.auth.uid);
-      allow update: if (resource.data.authorId== request.auth.uid) ||
-         userIsModerator();
+      allow update: if ((resource.data.authorId == request.auth.uid) || userIsModerator())
+          && editOnlyChangesFields(["visibility", "content"]);
       allow create: if (request.resource.data.authorId == request.auth.uid) &&
         documentFieldsCheckOut(["authorId", "visibility", "content","headline"], 
         ["photo", "tags", "location"]);
