@@ -13,7 +13,10 @@ service cloud.firestore {
     }
 
     function editOnlyChangesFields(allowedFields) {
-      return debug(request.resource.data.keys()).hasOnly(allowedFields);
+      // 同じキー同士比較して、valueに変化のあったもののkeyだけ取り出せる
+      // だからaffectedなのね
+      let affectedKeys = request.resource.data.diff(resource.data).affectedKeys();
+      return affectedKeys.hasOnly(allowedFields);
     }
 
     // The name of userId can be anything
