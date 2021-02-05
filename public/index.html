@@ -7,21 +7,18 @@
   <title>Welcome to Firebase Hosting</title>
 
   <!-- update the version number as needed -->
-  <script defer src="/__/firebase/7.21.0/firebase-app.js"></script>
+  <script defer src="/__/firebase/7.24.0/firebase-app.js"></script>
   <!-- include only the Firebase features as you need -->
-  <script defer src="/__/firebase/7.21.0/firebase-auth.js"></script>
-  <script defer src="/__/firebase/7.21.0/firebase-database.js"></script>
-  <script defer src="/__/firebase/7.21.0/firebase-firestore.js"></script>
-  <script defer src="/__/firebase/7.21.0/firebase-messaging.js"></script>
-  <script defer src="/__/firebase/7.21.0/firebase-storage.js"></script>
-  <script defer src="/__/firebase/7.21.0/firebase-analytics.js"></script>
-  <script defer src="/__/firebase/7.21.0/firebase-remote-config.js"></script>
-  <script defer src="/__/firebase/7.21.0/firebase-performance.js"></script>
+  <script defer src="/__/firebase/7.24.0/firebase-auth.js"></script>
+  <script defer src="/__/firebase/7.24.0/firebase-database.js"></script>
+  <script defer src="/__/firebase/7.24.0/firebase-firestore.js"></script>
+  <script defer src="/__/firebase/7.24.0/firebase-messaging.js"></script>
+  <script defer src="/__/firebase/7.24.0/firebase-storage.js"></script>
+  <script defer src="/__/firebase/7.24.0/firebase-analytics.js"></script>
+  <script defer src="/__/firebase/7.24.0/firebase-remote-config.js"></script>
+  <script defer src="/__/firebase/7.24.0/firebase-performance.js"></script>
   <!-- initialize the SDK after all desired features are loaded -->
   <script defer src="/__/firebase/init.js"></script>
-
-  <script defer src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth__ja.js"></script>
-  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
 
   <style media="screen">
     body {
@@ -107,6 +104,8 @@
     <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
   </div>
   <p id="load">Firebase SDK Loading&hellip;</p>
+  <input type="text" id="access_token" />
+  <button onclick="token();">post access token</button>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -126,7 +125,6 @@
 
       try {
         let app = firebase.app();
-        const db = firebase.firestore();
         let features = [
           'auth',
           'database',
@@ -138,28 +136,39 @@
         ].filter(feature => typeof app[feature] === 'function');
         loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
 
-        firebase.auth().onAuthStateChanged(function (user) {
-          if (user) {
-            console.log(user.uid);
-            //getUserByUID(user.uid);
-            getMessageByUID(user.uid);
-          } else {
-            console.log('No user is signed in.');
-          }
-        });
-
       } catch (e) {
         console.error(e);
         loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
       }
     });
 
+    function token() {
+      const tokenEl = document.querySelector('#access_token');
+      const token = tokenEl.value;
+      console.log(token);
+      firebase.auth().signInWithCustomToken(token).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+      });
+
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          console.log(user.uid);
+          getUserByUID(user.uid);
+          //getMessageByUID(user.uid);
+          getIdToken();
+        } else {
+          console.log('No user is signed in.');
+        }
+      });
+
+    }
+
     function getUserByUID(uid) {
       const db = firebase.firestore();
       db.collection('users')
-        // nameの検索を一般ユーザができる時点でおかしいから常に拒否でいい
-        //.where("name", "==", "Saint-Germain")
-
         // 自分のuserドキュメントを検索
         .doc(uid)
         .get()
@@ -172,27 +181,15 @@
         });
     }
 
-    function getMessageByUID(uid) {
-      const db = firebase.firestore();
-      let messageRef = db.collection('rooms')
-        .doc('roomA')
-        .collection('messages')
-        //        .where("from", "==", "k1K3IRRneSeJPY5O1O66MtT3eCs1")
-        .where("from", "==", uid)
-        ;
-      messageRef
-        .get()
-        .then(function (querySnapshot) {
-          querySnapshot.forEach(function (doc) {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-          });
-        })
-        .catch(function (error) {
-          console.log("Error getting documents: ", error);
-
-          // TODO insufficient permissions
-        });
+    function getIdToken() {
+      firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then((idToken) => {
+        // Send token to your backend via HTTPS
+        // ...
+        console.log('idToken:');
+        console.log(idToken);
+      }).catch((error) => {
+        // Handle error
+      });
     }
   </script>
 </body>
