@@ -43,7 +43,12 @@ async function main() {
 
   // これで問い合わせされるが、public分が一回だけ余分
   const details = await Promise.all(detailsPending);
-
 }
 
-main();
+async function main2() {
+  // この方法であれば、余分なpublicは呼ばなくてもよさそう
+  const publicRepository = getRepository<Detail>('publics/0YPJmTVo631kHkpQgP47/details');
+  const details = await publicRepository.find();
+  console.log(details);
+}
+main2();
