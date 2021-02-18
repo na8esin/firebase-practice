@@ -18,7 +18,7 @@
   <script defer src="/__/firebase/7.24.0/firebase-remote-config.js"></script>
   <script defer src="/__/firebase/7.24.0/firebase-performance.js"></script>
   <!-- initialize the SDK after all desired features are loaded -->
-  <script defer src="/__/firebase/init.js"></script>
+  <script defer src="/__/firebase/init.js?useEmulator=true"></script>
 
   <style media="screen">
     body {
@@ -105,7 +105,9 @@
   </div>
   <p id="load">Firebase SDK Loading&hellip;</p>
   <input type="text" id="access_token" />
-  <button onclick="token();">post access token</button>
+  <button onclick="token();">post access token</button><br />
+  <button onclick="getFCMToken();">getFCMToken</button>
+
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -190,6 +192,25 @@
       }).catch((error) => {
         // Handle error
       });
+    }
+
+    function getFCMToken() {
+      const messaging = firebase.messaging();
+      messaging.getToken({ vapidKey: "BHohKj-LYrJcWEpuPAkvMBWMKVEHm7Zc28MRsizNlOKh2RCh3zQvCXeZB86SEHhICAZlH6Q0L1vw6ScIMVvDN3E" }).then((currentToken) => {
+        if (currentToken) {
+          // Send the token to your server and update the UI if necessary
+          // ...
+          console.log(currentToken);
+        } else {
+          // Show permission request UI
+          console.log('No registration token available. Request permission to generate one.');
+          // ...
+        }
+      }).catch((err) => {
+        console.log('An error occurred while retrieving token. ', err);
+        // ...
+      });
+
     }
   </script>
 </body>
