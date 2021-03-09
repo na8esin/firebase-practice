@@ -23,6 +23,7 @@ async function main() {
   await setup();
   await docRef
     .update({
+      // { token: 'bbb' }だけだと消えない
       "tokens": admin.firestore.FieldValue.arrayRemove({ token: 'bbb', device: 'apns' })
     });
   console.log((await docRef.get()).data());
