@@ -34,3 +34,5 @@ function main() {
 }
 
 main();
+
+export { }
