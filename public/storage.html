@@ -163,12 +163,14 @@
 
     function selectedFile() {
       const selectedFile = document.getElementById('input').files[0];
+      // flutterと違ってwebkitRelativePathと言う名前になってるが、こっちでも取れない
       console.log(selectedFile);
       // Create a root reference
       var storageRef = firebase.storage().ref();
 
       // Create a reference to 'mountains.jpg'
       var sampleRef = storageRef.child(selectedFile.name);
+      // 意外とflutterでも無理矢理入れてみればアップロードできるかも？
       sampleRef.put(selectedFile).then(function(snapshot) {
         console.log('Uploaded a blob or file!');
       });
