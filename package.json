@@ -7,6 +7,7 @@
     "test": "mocha --exit"
   },
   "dependencies": {
+    "csv": "^5.5.0",
     "firebase-admin": "^9.5.0",
     "fireorm": "^0.20.0",
     "reflect-metadata": "^0.1.13"
