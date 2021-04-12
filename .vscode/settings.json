@@ -1,3 +1,11 @@
 {
-    "editor.tabSize": 2
+    "editor.rulers": [
+        80
+    ],
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false,
+    "editor.trimAutoWhitespace": true,
+    "editor.wordWrap": "on",
+    "editor.wrappingStrategy": "advanced",
+    "editor.formatOnSave": true,
 }
