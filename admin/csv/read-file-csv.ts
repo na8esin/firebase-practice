@@ -5,13 +5,21 @@ import * as parse from 'csv-parse/lib/sync';
 // https://github.com/adaltas/node-csv-parse/blob/master/samples/recipe.file.js
 
 (async function () {
+  // ファイル読み込み
   const content =
     await fs.promises.readFile(path.join(__dirname, './sample.csv'));
+  // buf -> string
   const input = content.toString();
 
+  // string(csv) -> object
   const records = parse(input, {
     columns: true,
     skip_empty_lines: true
-  })
-  console.log(records);
+  });
+
+  records.forEach((element: any) => {
+    console.log(element);
+    console.log('----');
+  });
+
 })();
