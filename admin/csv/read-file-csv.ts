@@ -13,7 +13,7 @@ import * as parse from 'csv-parse/lib/sync';
 
   // string(csv) -> object
   const records = parse(input, {
-    columns: true,
+    columns: true, // 一行目をフィールドのkeyとして使用する
     skip_empty_lines: true
   });
 
