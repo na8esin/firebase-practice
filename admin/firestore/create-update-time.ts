@@ -6,6 +6,6 @@ const docRef = db.collection('publics').doc('763fznZQsyE0DmiUzeMZ');
 (async function () {
   // Commit the batch
   const data = await docRef.get();
-  console.log(data.createTime);
-  console.log(data.updateTime);
+  console.log(data.createTime?.toDate());
+  console.log(data.updateTime?.toDate());
 })();
