@@ -7,3 +7,8 @@ export function getInitializeAppOptions() {
     credential: admin.credential.cert(serviceAccount),
   };
 }
+
+export function getDb() {
+  admin.initializeApp(getInitializeAppOptions());
+  return admin.firestore();
+}
