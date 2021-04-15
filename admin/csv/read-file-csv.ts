@@ -7,7 +7,7 @@ import * as parse from 'csv-parse/lib/sync';
 (async function () {
   // ファイル読み込み
   const content =
-    await fs.promises.readFile(path.join(__dirname, './sample.csv'));
+    await fs.promises.readFile(path.join(__dirname, 'sample.csv'));
   // buf -> string
   const input = content.toString();
 
