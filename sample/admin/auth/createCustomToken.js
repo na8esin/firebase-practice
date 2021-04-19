@@ -3,7 +3,6 @@ import admin from 'firebase-admin';
 とりあえず、createCustomToken()をやってみるだけのサンプル
 */
 
-
 // アプリからhttpsで送られてくる
 const email = 'watanabe@example.com';
 const password = 'password';

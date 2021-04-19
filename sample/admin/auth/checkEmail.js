@@ -3,6 +3,8 @@ import admin from 'firebase-admin';
 /* 
    UIDを既存のRDSに(laravel経由で)保存しなくても、
    emailで橋渡しすればfirebaseのカスタム認証を利用できる
+   と思ったけど、既存のシステムでemailが変更されたことを検知するのが大変
+   なのでこのサンプルコードは実用性は微妙
  */
 
 admin.initializeApp({
@@ -11,10 +13,6 @@ admin.initializeApp({
 });
 
 const email = "foo@example.co.jp";
-const password = "password";
-
-// passwordとemailで既存のアプリに認証する
-//// const user = some_prosecc()
 
 main();
 
@@ -34,7 +32,6 @@ async function main() {
     }
   }
 }
-
 
 // 存在しない場合は、その旨をレスポンスする。
 // そして、アプリ側では新規会員登録を促す
@@ -60,7 +57,7 @@ async function getUserByEmailOrCreateUser(email) {
     // このタイミングで、firestoreのusersにもレコードを作る必要がある
     const db = admin.firestore();
     const setupDoc = db.collection("users").doc(createdUser.uid);
-    await setupDoc.set({ name: "foo", qualification: "FP1級", role: 5 });
+    await setupDoc.set({ name: "foo", qualification: "資格1級", role: 5 });
   }
   return createdUser;
 }
