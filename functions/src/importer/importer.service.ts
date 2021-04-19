@@ -6,8 +6,11 @@ import * as path from 'path';
 import * as os from 'os';
 import * as fs from 'fs';
 import * as parse from 'csv-parse/lib/sync';
-import { getRepository } from 'fireorm';
+import { getCustomRepository } from 'fireorm';
 import { Book } from '../book/book';
+import { BooksRepository } from '../book/books-repository';
+
+BooksRepository.name;
 
 export class ImporterService {
   // main的な関数
@@ -18,11 +21,17 @@ export class ImporterService {
       return
     }
 
-    const entities = await ImporterService.csvToObject(tempFilePath);
-
+    ImporterService.tempFileBatchWrite(tempFilePath);
 
     // ファイル削除
     fs.unlinkSync(tempFilePath);
+  }
+
+  // 与えられたファイルパスのCSVを変換して、firestoreに書き込む
+  static async tempFileBatchWrite(tempFilePath: string) {
+    const entities = await ImporterService.csvToObject(tempFilePath);
+    const repository = getCustomRepository(Book) as BooksRepository;
+    await repository.batchWrite(entities);
   }
 
   // TODO: 戻り値の型が限定的と言うか一時的
