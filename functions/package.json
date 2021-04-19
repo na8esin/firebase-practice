@@ -17,7 +17,9 @@
   "dependencies": {
     "csv": "^5.5.0",
     "firebase-admin": "^9.2.0",
-    "firebase-functions": "^3.11.0"
+    "firebase-functions": "^3.11.0",
+    "fireorm": "^0.20.0",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.1",
