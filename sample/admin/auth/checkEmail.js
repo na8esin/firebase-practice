@@ -7,10 +7,7 @@ import admin from 'firebase-admin';
    なのでこのサンプルコードは実用性は微妙
  */
 
-admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
-  databaseURL: 'https://practice-da34f.firebaseio.com'
-});
+admin.initializeApp();
 
 const email = "foo@example.co.jp";
 

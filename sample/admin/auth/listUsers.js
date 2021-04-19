@@ -1,10 +1,7 @@
 //import { admin } from "firebase-admin";
 import admin from 'firebase-admin';
 
-admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
-  databaseURL: 'https://practice-da34f.firebaseio.com'
-});
+admin.initializeApp();
 
 admin.auth().listUsers()
   .then(function (getUsersResult) {
