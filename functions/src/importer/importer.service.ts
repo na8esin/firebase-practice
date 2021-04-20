@@ -10,6 +10,7 @@ import { getCustomRepository } from 'fireorm';
 import { Book } from '../book/book';
 import { BooksRepository } from '../book/books-repository';
 
+// https://github.com/wovalle/fireorm/issues/232
 BooksRepository.name;
 
 export class ImporterService {
@@ -34,7 +35,6 @@ export class ImporterService {
     await repository.batchWrite(entities);
   }
 
-  // TODO: 戻り値の型が限定的と言うか一時的
   static async csvToObject(filePath: string)
     : Promise<Partial<Book>[]> {
     const content =
