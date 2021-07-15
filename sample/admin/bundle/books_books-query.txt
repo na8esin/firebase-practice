@@ -1,0 +1,20 @@
+140
+{
+  "metadata":
+    {
+      "id":"latest-books",
+      "createTime":{"seconds":"1626325695","nanos":928971000},
+      "version":1,
+      "totalDocuments":1,
+      "totalBytes":"169"
+    }
+}
+166
+{
+  "documentMetadata":{
+    "name":"projects/practice-da34f/databases/(default)/documents/books/books",
+    "readTime":{
+      "seconds":"1626325695","nanos":928971000},
+      "exists":false
+      }
+}

@@ -1,0 +1,18 @@
+141
+{
+  "metadata":{
+    "id":"latest-books","createTime":{
+      "seconds":"1626315462","nanos":741832000
+      },
+      "version":1,
+      "totalDocuments":5,
+      "totalBytes":"2532"
+  }
+}
+234
+{
+  "namedQuery":{"name":"latest-books-query","bundledQuery":{"parent":"projects/practice-da34f/databases/(default)/documents","structuredQuery":{"from":[{"collectionId":"books"}]}},"readTime":{"seconds":"1626315462","nanos":741832000}}}166{"documentMetadata":{"name":"projects/practice-da34f/databases/(default)/documents/books/books","readTime":{"seconds":"1626315462","nanos":680944000},"exists":false
+  }
+  }
+213
+{"documentMetadata":{"name":"projects/practice-da34f/databases/(default)/documents/books/2sSJ75K4haptiuQXugyg","readTime":{"seconds":"1626315462","nanos":741832000},"exists":true,"queries":["latest-books-query"]}}311{"document":{"name":"projects/practice-da34f/databases/(default)/documents/books/2sSJ75K4haptiuQXugyg","fields":{"id":{"stringValue":"2sSJ75K4haptiuQXugyg"},"title":{"stringValue":"Readable Code"}},"createTime":{"seconds":"1618836159","nanos":982976000},"updateTime":{"seconds":"1618836159","nanos":982976000}}}213{"documentMetadata":{"name":"projects/practice-da34f/databases/(default)/documents/books/7m0k0BNvnqZvRMxOkNCF","readTime":{"seconds":"1626315462","nanos":741832000},"exists":true,"queries":["latest-books-query"]}}309{"document":{"name":"projects/practice-da34f/databases/(default)/documents/books/7m0k0BNvnqZvRMxOkNCF","fields":{"id":{"stringValue":"7m0k0BNvnqZvRMxOkNCF"},"title":{"stringValue":"Readable Code"}},"createTime":{"seconds":"1618836067","nanos":24546000},"updateTime":{"seconds":"1618836067","nanos":24546000}}}213{"documentMetadata":{"name":"projects/practice-da34f/databases/(default)/documents/books/iFwHN1y9b4BZ28lJZYUP","readTime":{"seconds":"1626315462","nanos":741832000},"exists":true,"queries":["latest-books-query"]}}314{"document":{"name":"projects/practice-da34f/databases/(default)/documents/books/iFwHN1y9b4BZ28lJZYUP","fields":{"id":{"stringValue":"iFwHN1y9b4BZ28lJZYUP"},"title":{"stringValue":"Clean Architecture"}},"createTime":{"seconds":"1618836067","nanos":24546000},"updateTime":{"seconds":"1618836067","nanos":24546000}}}213{"documentMetadata":{"name":"projects/practice-da34f/databases/(default)/documents/books/yIxOD4HnbWggMPiWS2O1","readTime":{"seconds":"1626315462","nanos":741832000},"exists":true,"queries":["latest-books-query"]}}316{"document":{"name":"projects/practice-da34f/databases/(default)/documents/books/yIxOD4HnbWggMPiWS2O1","fields":{"title":{"stringValue":"Clean Architecture"},"id":{"stringValue":"yIxOD4HnbWggMPiWS2O1"}},"createTime":{"seconds":"1618836159","nanos":982976000},"updateTime":{"seconds":"1618836159","nanos":982976000}}}
