@@ -17,7 +17,7 @@ import { open } from 'fs/promises';
 
   let filehandle;
   try {
-    filehandle = await open('./latest-books-query.txt', 'a+');
+    filehandle = await open('./public/latest-books-query.txt', 'a+');
     filehandle.write(bundleBuffer);
   } finally {
     await filehandle?.close();
