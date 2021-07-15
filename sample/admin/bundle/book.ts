@@ -9,6 +9,11 @@ import { open } from 'fs/promises';
   var docSnapshot = await firestore.doc('books/books').get();
   var querySnapshot = await firestore.collection('books').get();
 
+  if (!docSnapshot.exists) {
+    console.log('docSnapshot not exists');
+    return;
+  }
+
   // Build the bundle
   // Note how querySnapshot is named "latest-books-query"
   var bundleBuffer = bundle.add(docSnapshot) // Add a document
