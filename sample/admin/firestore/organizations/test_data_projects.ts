@@ -8,8 +8,6 @@ const projectsRef
     .doc('27FpmEohWywN8NzbXUMn')
     .collection('projects');
 
-const teams = 'teams';
-
 (async function () {
   await projectsRef.doc()
     .set({ name: "prj1" });
