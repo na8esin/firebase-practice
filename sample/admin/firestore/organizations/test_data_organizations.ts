@@ -1,4 +1,4 @@
-import { getDb } from '../getInitializeAppOptions';
+import { getDb } from '../../getInitializeAppOptions';
 
 const db = getDb();
 
