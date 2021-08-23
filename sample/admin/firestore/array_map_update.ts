@@ -3,7 +3,8 @@ import { getDb } from '../getInitializeAppOptions';
 const db = getDb();
 
 /**
- * すでに同じデータが何もせず、なければ追加される
+ * arrayUnionの検証。
+ * updateするときに全く同じデータがある時はデータは変わらない
  */
 
 /** とりあえずの型 */
