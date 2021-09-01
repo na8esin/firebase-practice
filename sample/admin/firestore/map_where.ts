@@ -5,6 +5,8 @@ const db = getDb();
 /**
  * mapの検索って普通にできる？
  * https://firebase.google.com/docs/firestore/solutions/index-map-field#map_field_and_subfields
+ * 
+ * 特にインデックスを貼る必要もなくできる
  */
 
 const colRef = db.collection('publics');
