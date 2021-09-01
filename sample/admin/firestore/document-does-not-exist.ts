@@ -7,4 +7,5 @@ const docRef = db.collection('publics').doc('document-does-not-exist');
 (async () => {
   const snap = await docRef.get();
   console.log(snap.data());
+  // undefined
 })();
