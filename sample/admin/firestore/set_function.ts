@@ -7,8 +7,7 @@ import { getDb } from '../getInitializeAppOptions';
 
 const db = getDb();
 const docRef = db
-  .collection('publics')
-  .doc('set_function');
+  .doc('publics/set_function');
 
 interface SetFunction {
   x: number;
@@ -17,7 +16,7 @@ interface SetFunction {
 }
 
 class Impl implements SetFunction {
-  x = 1;
+  x = 3;
   y = 2;
   isXLarger() { return this.x > this.y }
 }
